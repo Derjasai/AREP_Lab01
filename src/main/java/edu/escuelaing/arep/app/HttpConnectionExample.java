@@ -42,6 +42,7 @@ public class HttpConnectionExample {
             in.close();
 
             // print result
+            //System.out.println(title+"    ["+response.toString()+"]");
             GET_URL = "http://www.omdbapi.com/?t=";
             String resp = "["+response.toString()+"]" ;
             cache.addMovie(title, resp);

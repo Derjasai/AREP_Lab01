@@ -29,4 +29,8 @@ public class Cache {
         }
         return instance;
     }
+
+    public int size(){
+        return cache.size();
+    }
 }

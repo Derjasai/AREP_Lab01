@@ -47,6 +47,7 @@ public class HttpServer {
                 outputLine ="HTTP/1.1 200 OK\r\n"
                         + "Content-Type: text/html\r\n"
                         + "\r\n"
+                        + "<br>"
                         + "<table border=\" 1 \"> \n " + doTable(response)+
 
                         "    </table>";
@@ -89,14 +90,14 @@ public class HttpServer {
         return "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "<head>\n" +
-                "    <title>Peliculas</title>\n" +
+                "    <title>Buscador de peliculas</title>\n" +
                 "    <meta charset=\"UTF-8\">\n" +
                 "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
                 "</head>\n" +
                 "<body>\n" +
                 "<h1>Buscar una pelicula</h1>\n" +
                 "<form action=\"/hello\">\n" +
-                "    <label for=\"name\">Name:</label><br>\n" +
+                "    <label for=\"name\">Titulo de la pelicula a buscar:</label><br>\n" +
                 "    <input type=\"text\" id=\"name\" name=\"name\" value=\"The Avengers\"><br><br>\n" +
                 "    <input type=\"button\" value=\"Submit\" onclick=\"loadGetMsg()\">\n" +
                 "</form>\n" +
