@@ -68,6 +68,7 @@ public class TestHttpServer extends TestCase {
     }
 
     public void testCahceConcurrent(){
+        Cache.getInstance().clear();
         ArrayList<ThreadTest> threadTests = new ArrayList<>();
         threadTests.add(new ThreadTest("The Avengers"));
         threadTests.add(new ThreadTest("The Avengers"));
