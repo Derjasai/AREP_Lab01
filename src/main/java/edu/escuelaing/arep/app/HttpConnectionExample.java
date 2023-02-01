@@ -3,7 +3,6 @@ package edu.escuelaing.arep.app;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -14,6 +13,11 @@ public class HttpConnectionExample {
     private static final String API_KEY = "&apikey=7ca9f0c2";
 
     public static String requestTitle(String title) throws IOException {
+
+        Cache cache = Cache.getInstance();
+        if(cache.isOnCache(title)){
+            return cache.getMovieDescription(title);
+        }
 
         GET_URL += title;
         GET_URL += API_KEY;
@@ -39,7 +43,9 @@ public class HttpConnectionExample {
 
             // print result
             GET_URL = "http://www.omdbapi.com/?t=";
-            return  "["+response.toString()+"]";
+            String resp = "["+response.toString()+"]" ;
+            cache.addMovie(title, resp);
+            return  resp;
         } else {
             System.out.println("GET request not worked");
         }

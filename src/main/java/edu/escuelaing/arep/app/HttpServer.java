@@ -37,7 +37,7 @@ public class HttpServer {
                     String[] prov = inputLine.split("title=");
                     title = (prov[1].split("HTTP")[0]).replace(" ", "");
                 }
-                System.out.println("Received: " + inputLine);
+                //System.out.println("Received: " + inputLine);
                 if (!in.ready()) {
                     break;
                 }
@@ -89,15 +89,15 @@ public class HttpServer {
         return "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "<head>\n" +
-                "    <title>Form Example</title>\n" +
+                "    <title>Peliculas</title>\n" +
                 "    <meta charset=\"UTF-8\">\n" +
                 "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
                 "</head>\n" +
                 "<body>\n" +
-                "<h1>Form with GET</h1>\n" +
+                "<h1>Buscar una pelicula</h1>\n" +
                 "<form action=\"/hello\">\n" +
                 "    <label for=\"name\">Name:</label><br>\n" +
-                "    <input type=\"text\" id=\"name\" name=\"name\" value=\"John\"><br><br>\n" +
+                "    <input type=\"text\" id=\"name\" name=\"name\" value=\"The Avengers\"><br><br>\n" +
                 "    <input type=\"button\" value=\"Submit\" onclick=\"loadGetMsg()\">\n" +
                 "</form>\n" +
                 "<div id=\"getrespmsg\"></div>\n" +
