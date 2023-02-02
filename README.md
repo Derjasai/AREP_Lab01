@@ -26,6 +26,12 @@ mvn clean package exec:java -D "exec.mainClass"="edu.escuelaing.arep.app.HttpSer
 Finalmente ingrese al navegador de su preferencia con el siguiente link:
 http://localhost:35000
 
+## Documentación
+Se encontrar la documentación en la carpeta nombrada "javadoc", para generar nueva documentación puede correr el siguiente comando
+```
+mvn javadoc:javadoc
+```
+La nueva documentación generada puede encontrarla en la ruta /target/site/apidocs
 
 ## Corriendo Tests unitatios
 
@@ -56,3 +62,5 @@ Versión 1.0
 Se hace una arquitectura enfocada en API Rest. Se implementa el patrón de diseño SINGLETON para la creación de caché, puesto que este es el único caché que debe existir dentro del servidor
 
 - Extensibilidad: Si se requiere hacer  la consulta a otra API del mismo estilo basta con cambiar la dirección de la URL en el atributo establecido en la clase de APIConnection y mandar el Query correspondiente en HttpServer
+- Patrones usados: Se usa el patrón de Fachada y el patrón de Singleton
+- Modularización: Todas clases implementan metodos los cuales singuel el principio de unica responsabilidad, lo cual nos permite extender el codigo de ser necesario en dado caso que se neceite

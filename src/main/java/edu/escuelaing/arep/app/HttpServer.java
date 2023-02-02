@@ -13,7 +13,7 @@ public class HttpServer {
     /**
      * Metodo para iniciar el programa
      * @param args main
-     * @throws IOException
+     * @throws IOException exception
      */
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = null;
@@ -51,7 +51,7 @@ public class HttpServer {
                 }
             }
             if(!title.equals("")){
-                String response = APIConnection.requestTitle(title);
+                String response = APIConnection.requestTitle(title, "http://www.omdbapi.com/?t="+title+"&apikey=7ca9f0c2");
                 outputLine ="HTTP/1.1 200 OK\r\n"
                         + "Content-Type: text/html\r\n"
                         + "\r\n"

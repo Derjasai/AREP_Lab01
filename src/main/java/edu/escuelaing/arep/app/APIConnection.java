@@ -12,26 +12,22 @@ import java.net.URL;
 public class APIConnection {
 
     private static final String USER_AGENT = "Mozilla/5.0";
-    private static String GET_URL = "http://www.omdbapi.com/?t=";
-    private static final String API_KEY = "&apikey=7ca9f0c2";
 
     /***
      * Realiza la consulta hacia la API externa y toma su JSON para ponerlo en formato de STRING
-     * @param jquery Titulo de la pelicula a consultar en la API externa
+     * @param title Titulo de la pelicula a consultar en la API externa
+     * @param url URL a buscar en el API
      * @return Retorna la descripción de la pelicula en formato de JSON interpretado como STRING
      * @throws IOException Exception
      */
-    public static String requestTitle(String jquery) throws IOException {
+    public static String requestTitle(String title, String url) throws IOException {
 
         Cache cache = Cache.getInstance();
-        if(cache.isOnCache(jquery)){
-            return cache.getMovieDescription(jquery);
+        if(cache.isOnCache(title)){
+            return cache.getMovieDescription(title);
         }
 
-        GET_URL += jquery;
-        GET_URL += API_KEY;
-
-        URL obj = new URL(GET_URL);
+        URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("GET");
         con.setRequestProperty("User-Agent", USER_AGENT);
@@ -51,9 +47,8 @@ public class APIConnection {
             in.close();
 
             // print result
-            GET_URL = "http://www.omdbapi.com/?t=";
             String resp = "["+response.toString()+"]" ;
-            cache.addMovie(jquery, resp);
+            cache.addMovie(title, resp);
             return  resp;
         } else {
             System.out.println("GET request not worked");

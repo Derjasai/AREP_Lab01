@@ -14,7 +14,7 @@ public class ThreadTest extends Thread{
     @Override
     public void run(){
         try {
-            response = APIConnection.requestTitle(title);
+            response = APIConnection.requestTitle(title,"http://www.omdbapi.com/?t="+title+"&apikey=7ca9f0c2");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

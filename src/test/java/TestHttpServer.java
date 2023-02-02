@@ -21,10 +21,11 @@ public class TestHttpServer extends TestCase {
     }
 
     /**
-     * Rigourous Test :-)
+     * Test enfocado en buscar los titulos y que cuadren con su respectiva descripción
      */
     public void testSearchTitles()
     {
+        Cache.getInstance().clear();
         HashMap<String, String> responses = new HashMap<>();
         responses.put("The Avengers", "[{\"Title\":\"The Avengers\",\"Year\":\"2012\",\"Rated\":\"PG-13\",\"Released\":\"04 May 2012\",\"Runtime\":\"143 min\",\"Genre\":\"Action, Sci-Fi\",\"Director\":\"Joss Whedon\",\"Writer\":\"Joss Whedon, Zak Penn\",\"Actors\":\"Robert Downey Jr., Chris Evans, Scarlett Johansson\",\"Plot\":\"Earth's mightiest heroes must come together and learn to fight as a team if they are going to stop the mischievous Loki and his alien army from enslaving humanity.\",\"Language\":\"English, Russian, Hindi\",\"Country\":\"United States\",\"Awards\":\"Nominated for 1 Oscar. 38 wins & 80 nominations total\",\"Poster\":\"https://m.media-amazon.com/images/M/MV5BNDYxNjQyMjAtNTdiOS00NGYwLWFmNTAtNThmYjU5ZGI2YTI1XkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_SX300.jpg\",\"Ratings\":[{\"Source\":\"Internet Movie Database\",\"Value\":\"8.0/10\"},{\"Source\":\"Rotten Tomatoes\",\"Value\":\"91%\"},{\"Source\":\"Metacritic\",\"Value\":\"69/100\"}],\"Metascore\":\"69\",\"imdbRating\":\"8.0\",\"imdbVotes\":\"1,397,515\",\"imdbID\":\"tt0848228\",\"Type\":\"movie\",\"DVD\":\"25 Sep 2012\",\"BoxOffice\":\"$623,357,910\",\"Production\":\"N/A\",\"Website\":\"N/A\",\"Response\":\"True\"}]");
         responses.put("Jhon", "[{\"Title\":\"Jhon en Martian\",\"Year\":\"2019\",\"Rated\":\"N/A\",\"Released\":\"22 Jun 2019\",\"Runtime\":\"N/A\",\"Genre\":\"Comedy, Romance, Sci-Fi\",\"Director\":\"N/A\",\"Writer\":\"Joma Labayen\",\"Actors\":\"Pepe Herrera, Arci Muñoz, Rufa Mae Quinto\",\"Plot\":\"Jhon (Pepe Herrera), the human representation of bad luck, is sent by his narcissistic boss Nestor on his last delivery errand before flying to Malaysia. Jhon is resetting his life; he wants to start anew abroad. But as luck would...\",\"Language\":\"Tagalog, Filipino\",\"Country\":\"Philippines\",\"Awards\":\"N/A\",\"Poster\":\"https://m.media-amazon.com/images/M/MV5BYTI3YTdlZjUtMjcyZi00ODYyLWE2MWEtYzM0MDI5N2UxMTJiXkEyXkFqcGdeQXVyNTI5NjIyMw@@._V1_SX300.jpg\",\"Ratings\":[],\"Metascore\":\"N/A\",\"imdbRating\":\"N/A\",\"imdbVotes\":\"N/A\",\"imdbID\":\"tt10161712\",\"Type\":\"series\",\"totalSeasons\":\"1\",\"Response\":\"True\"}]");
@@ -52,7 +53,7 @@ public class TestHttpServer extends TestCase {
         threadTests.add(new ThreadTest("H"));
 
         for(ThreadTest threadTest: threadTests){
-            threadTest.run();
+            threadTest.start();
         }
         for(ThreadTest threadTest: threadTests){
             try {
@@ -67,6 +68,9 @@ public class TestHttpServer extends TestCase {
         }
     }
 
+    /**
+     * testea que el caché este guardando correctamente los titulos y que no se este repitiendo el titulo mas de una vez en el caché
+     */
     public void testCahceConcurrent(){
         Cache.getInstance().clear();
         ArrayList<ThreadTest> threadTests = new ArrayList<>();
@@ -84,7 +88,7 @@ public class TestHttpServer extends TestCase {
         threadTests.add(new ThreadTest("Thor"));
 
         for(ThreadTest threadTest: threadTests){
-            threadTest.run();
+            threadTest.start();
         }
         for(ThreadTest threadTest: threadTests){
             try {
@@ -95,5 +99,38 @@ public class TestHttpServer extends TestCase {
         }
 
         assertEquals(2, Cache.getInstance().size());
+    }
+
+    public void testCahceConcurrentPersisten(){
+        Cache cache = Cache.getInstance();
+        cache.clear();
+        HashMap<String, String> responses = new HashMap<>();
+        Cache.getInstance().clear();
+        ArrayList<ThreadTest> threadTests = new ArrayList<>();
+        threadTests.add(new ThreadTest("The Avengers"));
+        threadTests.add(new ThreadTest("The Avengers"));
+
+        threadTests.add(new ThreadTest("Thor"));
+        threadTests.add(new ThreadTest("Thor"));
+
+        responses.put("The Avengers", "[{\"Title\":\"The Avengers\",\"Year\":\"2012\",\"Rated\":\"PG-13\",\"Released\":\"04 May 2012\",\"Runtime\":\"143 min\",\"Genre\":\"Action, Sci-Fi\",\"Director\":\"Joss Whedon\",\"Writer\":\"Joss Whedon, Zak Penn\",\"Actors\":\"Robert Downey Jr., Chris Evans, Scarlett Johansson\",\"Plot\":\"Earth's mightiest heroes must come together and learn to fight as a team if they are going to stop the mischievous Loki and his alien army from enslaving humanity.\",\"Language\":\"English, Russian, Hindi\",\"Country\":\"United States\",\"Awards\":\"Nominated for 1 Oscar. 38 wins & 80 nominations total\",\"Poster\":\"https://m.media-amazon.com/images/M/MV5BNDYxNjQyMjAtNTdiOS00NGYwLWFmNTAtNThmYjU5ZGI2YTI1XkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_SX300.jpg\",\"Ratings\":[{\"Source\":\"Internet Movie Database\",\"Value\":\"8.0/10\"},{\"Source\":\"Rotten Tomatoes\",\"Value\":\"91%\"},{\"Source\":\"Metacritic\",\"Value\":\"69/100\"}],\"Metascore\":\"69\",\"imdbRating\":\"8.0\",\"imdbVotes\":\"1,397,515\",\"imdbID\":\"tt0848228\",\"Type\":\"movie\",\"DVD\":\"25 Sep 2012\",\"BoxOffice\":\"$623,357,910\",\"Production\":\"N/A\",\"Website\":\"N/A\",\"Response\":\"True\"}]");
+        responses.put("Thor", "[{\"Title\":\"Thor\",\"Year\":\"2011\",\"Rated\":\"PG-13\",\"Released\":\"06 May 2011\",\"Runtime\":\"115 min\",\"Genre\":\"Action, Fantasy\",\"Director\":\"Kenneth Branagh\",\"Writer\":\"Ashley Miller, Zack Stentz, Don Payne\",\"Actors\":\"Chris Hemsworth, Anthony Hopkins, Natalie Portman\",\"Plot\":\"The powerful but arrogant god Thor is cast out of Asgard to live amongst humans in Midgard (Earth), where he soon becomes one of their finest defenders.\",\"Language\":\"English\",\"Country\":\"United States\",\"Awards\":\"5 wins & 30 nominations\",\"Poster\":\"https://m.media-amazon.com/images/M/MV5BOGE4NzU1YTAtNzA3Mi00ZTA2LTg2YmYtMDJmMThiMjlkYjg2XkEyXkFqcGdeQXVyNTgzMDMzMTg@._V1_SX300.jpg\",\"Ratings\":[{\"Source\":\"Internet Movie Database\",\"Value\":\"7.0/10\"},{\"Source\":\"Rotten Tomatoes\",\"Value\":\"77%\"},{\"Source\":\"Metacritic\",\"Value\":\"57/100\"}],\"Metascore\":\"57\",\"imdbRating\":\"7.0\",\"imdbVotes\":\"855,477\",\"imdbID\":\"tt0800369\",\"Type\":\"movie\",\"DVD\":\"13 Sep 2011\",\"BoxOffice\":\"$181,030,624\",\"Production\":\"N/A\",\"Website\":\"N/A\",\"Response\":\"True\"}]");
+
+
+        for(ThreadTest threadTest: threadTests){
+            threadTest.start();
+        }
+        for(ThreadTest threadTest: threadTests){
+            try {
+                threadTest.join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        for(ThreadTest threadTest: threadTests){
+            assertEquals(threadTest.getResponse(), cache.getMovieDescription(threadTest.getTitle()));
+        }
+
     }
 }
