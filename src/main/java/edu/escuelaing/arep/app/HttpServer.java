@@ -6,7 +6,15 @@ import java.util.HashMap;
 
 import org.json.*;
 
+/**
+ * Levantar un servicio web que va a correr por el puerto 35000
+ */
 public class HttpServer {
+    /**
+     * Metodo para iniciar el programa
+     * @param args main
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = null;
         try {
@@ -43,7 +51,7 @@ public class HttpServer {
                 }
             }
             if(!title.equals("")){
-                String response = HttpConnectionExample.requestTitle(title);
+                String response = APIConnection.requestTitle(title);
                 outputLine ="HTTP/1.1 200 OK\r\n"
                         + "Content-Type: text/html\r\n"
                         + "\r\n"
@@ -65,6 +73,11 @@ public class HttpServer {
         serverSocket.close();
     }
 
+    /**
+     * Formar el contenido de una tabla basado en un String que se le pase con el formato de un archivo JSON
+     * @param response Archivo en formato JSON a transformar en tabla
+     * @return String del contenido de una tabla formada en HTML
+     */
     private static String doTable(String response){
         HashMap<String,String> dict = new HashMap<String, String>();
         JSONArray jsonArray = new JSONArray(response);
@@ -86,6 +99,10 @@ public class HttpServer {
         return table;
     }
 
+    /**
+     * Entregar el index de la página principal
+     * @return index en formato de String del HTML del inicio de la Página
+     */
     private static String index(){
         return "<!DOCTYPE html>\n" +
                 "<html>\n" +

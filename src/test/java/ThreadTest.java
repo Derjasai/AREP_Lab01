@@ -1,4 +1,4 @@
-import edu.escuelaing.arep.app.HttpConnectionExample;
+import edu.escuelaing.arep.app.APIConnection;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ public class ThreadTest extends Thread{
     @Override
     public void run(){
         try {
-            response = HttpConnectionExample.requestTitle(title);
+            response = APIConnection.requestTitle(title);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

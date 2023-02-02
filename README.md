@@ -51,4 +51,8 @@ Versión 1.0
 
 * Daniel Esteban Ramos Jimenéz
 
-## Explicaciones
+## Explicaciones tecnicas
+
+Se hace una arquitectura enfocada en API Rest. Se implementa el patrón de diseño SINGLETON para la creación de caché, puesto que este es el único caché que debe existir dentro del servidor
+
+- Extensibilidad: Si se requiere hacer  la consulta a otra API del mismo estilo basta con cambiar la dirección de la URL en el atributo establecido en la clase de APIConnection y mandar el Query correspondiente en HttpServer
